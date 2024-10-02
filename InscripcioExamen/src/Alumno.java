@@ -1,22 +1,51 @@
 import java.util.List;
 
 public class Alumno {
-    private String nombre;
-    private String apellido;
-    private String dni;
-    private List<Asignatura> asignaturasAdeudadas;
 
-    public Alumno(String nombre, String apellido, String dni, List<Asignatura> asignaturasAdeudadas) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.dni = dni;
-        this.asignaturasAdeudadas = asignaturasAdeudadas;
+        private int idAlumno;
+        private String apellido;
+        private String nombre;
+        private String dni;
+
+        public Alumno(int idAlumno, String apellido, String nombre, String dni) {
+            this.idAlumno = idAlumno;
+            this.apellido = apellido;
+            this.nombre = nombre;
+            this.dni = dni;
+        }
+
+        // Getters y Setters
+
+        public int getIdAlumno() {
+            return idAlumno;
+        }
+
+        public void setIdAlumno(int idAlumno) {
+            this.idAlumno = idAlumno;
+        }
+
+        public String getApellido() {
+            return apellido;
+        }
+
+        public void setApellido(String apellido) {
+            this.apellido = apellido;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public String getDni() {
+            return dni;
+        }
+
+        public void setDni(String dni) {
+            this.dni = dni;
+        }
     }
-
-    // Getters y Setters
-    public String getNombre() { return nombre; }
-    public String getApellido() { return apellido; }
-    public String getDni() { return dni; }
-    public List<Asignatura> getAsignaturasAdeudadas() { return asignaturasAdeudadas; }
-}
 

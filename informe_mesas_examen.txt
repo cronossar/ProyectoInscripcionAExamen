@@ -1,0 +1,7 @@
+Mesa ID: 400
+Asignatura: SIC1
+Fecha y Hora: 2024-10-03T14:00
+Alumnos Inscritos:
+ - asdas adsasd
+ - daniel camacho
+

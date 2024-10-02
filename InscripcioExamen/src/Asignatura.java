@@ -2,24 +2,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Asignatura {
-    private String nombre;
+    private int idAsignatura;
+    private String nombreAsignatura;
     private int añoEstudio;
-    private List<Examen> examenes;
 
-    public Asignatura(String nombre, int añoEstudio) {
-        this.nombre = nombre;
+    public Asignatura(int idAsignatura, String nombreAsignatura, int añoEstudio) {
+        this.idAsignatura = idAsignatura;
+        this.nombreAsignatura = nombreAsignatura;
         this.añoEstudio = añoEstudio;
-        this.examenes = new ArrayList<>();
     }
 
-    // Métodos para agregar examen
-    public void agregarExamen(Examen examen) {
-        examenes.add(examen);
+    // Getters y Setters
+
+    public int getIdAsignatura() {
+        return idAsignatura;
     }
 
-    // Getters
-    public String getNombre() { return nombre; }
-    public int getAñoEstudio() { return añoEstudio; }
-    public List<Examen> getExamenes() { return examenes; }
+    public void setIdAsignatura(int idAsignatura) {
+        this.idAsignatura = idAsignatura;
+    }
+
+    public String getNombreAsignatura() {
+        return nombreAsignatura;
+    }
+
+    public void setNombreAsignatura(String nombreAsignatura) {
+        this.nombreAsignatura = nombreAsignatura;
+    }
+
+    public int getAñoEstudio() {
+        return añoEstudio;
+    }
+
+    public void setAñoEstudio(int añoEstudio) {
+        this.añoEstudio = añoEstudio;
+    }
 }
 
