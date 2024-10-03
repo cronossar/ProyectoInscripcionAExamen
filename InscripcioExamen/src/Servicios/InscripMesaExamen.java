@@ -1,3 +1,5 @@
+package Servicios;
+
 public class InscripMesaExamen {
     private Alumno alumno;
     private CronoMesaExamen cronoMesa;

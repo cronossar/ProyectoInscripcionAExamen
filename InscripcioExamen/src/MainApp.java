@@ -1,7 +1,11 @@
+import Servicios.*;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -58,55 +62,96 @@ public class MainApp {
     }
 
     private static void cargarAlumnos(Scanner scanner) {
-        System.out.print("Ingrese ID Alumno: ");
-        int idAlumno = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Ingrese Apellido: ");
-        String apellido = scanner.nextLine();
-        System.out.print("Ingrese Nombre: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Ingrese DNI: ");
-        String dni = scanner.nextLine();
+        int idAlumno = obtenerId(scanner, "Servicios.Alumno");
+        String apellido = obtenerCampo(scanner, "Apellido");
+        String nombre = obtenerCampo(scanner, "Nombre");
+        String dni = obtenerCampo(scanner, "DNI");
 
+        // Agregar el alumno
         alumnos.add(new Alumno(idAlumno, apellido, nombre, dni));
         System.out.println("Alumno cargado exitosamente.");
     }
 
     private static void cargarDocentes(Scanner scanner) {
-        System.out.print("Ingrese ID Docente: ");
-        int idDocente = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Ingrese Apellido: ");
-        String apellido = scanner.nextLine();
-        System.out.print("Ingrese Nombre: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Ingrese DNI: ");
-        String dni = scanner.nextLine();
+        int idDocente = obtenerId(scanner, "Servicios.Docente");
+        String apellido = obtenerCampo(scanner, "Apellido");
+        String nombre = obtenerCampo(scanner, "Nombre");
+        String dni = obtenerCampo(scanner, "DNI");
 
+        // Agregar el docente
         docentes.add(new Docente(idDocente, apellido, nombre, dni));
         System.out.println("Docente cargado exitosamente.");
     }
 
     private static void cargarAsignaturas(Scanner scanner) {
-        System.out.print("Ingrese ID Asignatura: ");
-        int idAsignatura = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Ingrese Nombre Asignatura: ");
-        String nombreAsignatura = scanner.nextLine();
-        System.out.print("Ingrese Año de Estudio: ");
-        int añoEstudio = scanner.nextInt();
+        int idAsignatura = obtenerId(scanner, "Servicios.Asignatura");
+        String nombreAsignatura = obtenerCampo(scanner, "Nombre de Asignatura");
+        int añoEstudio = obtenerAñoEstudio(scanner);
 
+        // Agregar la asignatura
         asignaturas.add(new Asignatura(idAsignatura, nombreAsignatura, añoEstudio));
         System.out.println("Asignatura cargada exitosamente.");
     }
 
-    private static void crearMesaExamen(Scanner scanner) {
-        System.out.print("Ingrese ID Mesa: ");
-        int idMesa = scanner.nextInt();
-        scanner.nextLine(); // Limpiar el buffer
+    private static int obtenerId(Scanner scanner, String tipo) {
+        int id = -1;
+        while (true) {
+            try {
+                System.out.print("Ingrese ID " + tipo + ": ");
+                id = scanner.nextInt();
+                scanner.nextLine(); // Limpiamos el buffer
+                if (id <= 0) {
+                    throw new IllegalArgumentException("El ID debe ser un número positivo.");
+                }
+                break; // Salimos del bucle si la entrada es válida
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Por favor ingrese un número entero para el ID.");
+                scanner.nextLine(); // Limpiamos el buffer
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+        return id;
+    }
 
-        System.out.println("Seleccione ID Asignatura (0 para ver opciones): ");
+    private static String obtenerCampo(Scanner scanner, String campo) {
+        String valor;
+        while (true) {
+            System.out.print("Ingrese " + campo + ": ");
+            valor = scanner.nextLine();
+            if (valor.trim().isEmpty()) {
+                System.out.println("Error: " + campo + " no puede estar vacío.");
+            } else {
+                break; // Salimos del bucle si la entrada es válida
+            }
+        }
+        return valor;
+    }
+
+    private static int obtenerAñoEstudio(Scanner scanner) {
+        int añoEstudio = -1;
+        while (true) {
+            try {
+                System.out.print("Ingrese Año de Estudio: ");
+                añoEstudio = scanner.nextInt();
+                scanner.nextLine(); // Limpiamos el buffer
+                if (añoEstudio <= 0) {
+                    throw new IllegalArgumentException("El año debe ser un número positivo.");
+                }
+                break; // Salimos del bucle si la entrada es válida
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Por favor ingrese un número entero para el año de estudio.");
+                scanner.nextLine(); // Limpiamos el buffer
+            }
+        }
+        return añoEstudio;
+    }
+
+    private static void crearMesaExamen(Scanner scanner) {
+        int idMesa = obtenerId(scanner, "Mesa");
         mostrarAsignaturas();
+
+        System.out.print("Seleccione ID Asignatura: ");
         int idAsignatura = scanner.nextInt();
         scanner.nextLine(); // Limpiar el buffer
 
@@ -121,15 +166,12 @@ public class MainApp {
         }
 
         LocalDateTime fechaHora = null;
-        boolean fechaValida = false;
-
-        while (!fechaValida) {
+        while (true) {
             System.out.print("Ingrese fecha y hora (YYYY-MM-DDTHH:MM): ");
             String fechaHoraInput = scanner.nextLine();
-
             try {
                 fechaHora = LocalDateTime.parse(fechaHoraInput);
-                fechaValida = true; // La fecha es válida
+                break; // La fecha es válida
             } catch (java.time.format.DateTimeParseException e) {
                 System.out.println("Formato de fecha y hora inválido. Inténtelo de nuevo.");
             }
@@ -140,9 +182,9 @@ public class MainApp {
     }
 
     private static void inscribirAlumno(Scanner scanner) {
-        System.out.print("Seleccione ID Alumno (0 para ver opciones): ");
         mostrarAlumnos();
-        int idAlumno = scanner.nextInt();
+        int idAlumno = obtenerId(scanner, "Alumno");
+
         Alumno alumno = alumnos.stream()
                 .filter(a -> a.getIdAlumno() == idAlumno)
                 .findFirst()
@@ -152,9 +194,9 @@ public class MainApp {
             return;
         }
 
-        System.out.print("Seleccione ID Mesa (0 para ver opciones): ");
         mostrarMesasExamen();
-        int idMesa = scanner.nextInt();
+        int idMesa = obtenerId(scanner, "Mesa");
+
         CronoMesaExamen mesaExamen = cronos.stream()
                 .filter(m -> m.getIdMesa() == idMesa)
                 .findFirst()
@@ -169,7 +211,23 @@ public class MainApp {
     }
 
     private static void generarInforme() {
-        try (FileWriter writer = new FileWriter("C:\informe_mesas_examen.txt")) {
+        String carpeta = "C:/MesasExamen/";
+        String nombreArchivo = "informe_mesas_examen.txt";
+
+        // Asegúrate de que la ruta de la carpeta termine con una barra
+        File directorio = new File(carpeta);
+        if (!directorio.exists()) {
+            if (directorio.mkdirs()) {
+                System.out.println("Carpeta creada: " + carpeta);
+            } else {
+                System.out.println("Error al crear la carpeta: " + carpeta);
+                return;
+            }
+        }
+
+        String rutaArchivo = carpeta + nombreArchivo;
+
+        try (FileWriter writer = new FileWriter(rutaArchivo)) {
             for (CronoMesaExamen mesa : cronos) {
                 writer.write("Mesa ID: " + mesa.getIdMesa() + "\n");
                 writer.write("Asignatura: " + mesa.getAsignatura().getNombreAsignatura() + "\n");
@@ -183,7 +241,7 @@ public class MainApp {
                 }
                 writer.write("\n");
             }
-            System.out.println("Informe generado exitosamente.");
+            System.out.println("Informe generado exitosamente en: " + rutaArchivo);
         } catch (IOException e) {
             System.out.println("Error al generar el informe: " + e.getMessage());
         }
