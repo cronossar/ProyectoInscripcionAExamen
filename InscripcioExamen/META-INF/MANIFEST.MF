@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: MainAppGUI
+Class-Path: C:\Users\DELL\Documents\GitHub\ProyectoInscripcionAExamen\In
+ scripcioExamen\src\Servicios
+

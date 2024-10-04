@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="ProyectoInscripcionAExamen:jar">
+    <output-path>$PROJECT_DIR$/InscripcioExamen</output-path>
+    <root id="archive" name="ProyectoInscripcionAExamen.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/InscripcioExamen/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="artifact" artifact-name="ProyectoInscripcionAExamen" />
+    </root>
+  </artifact>
+</component>

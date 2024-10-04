@@ -18,6 +18,8 @@ public class MainAppGUI {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(400, 400);
             frame.setLayout(new GridLayout(0, 1));
+            // Centrar la ventana en la pantalla
+            frame.setLocationRelativeTo(null);
 
             // Botones
             JButton btnCargarAlumnos = new JButton("Cargar Alumnos");
