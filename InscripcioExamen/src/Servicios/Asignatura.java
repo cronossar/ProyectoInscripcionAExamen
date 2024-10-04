@@ -36,5 +36,11 @@ public class Asignatura {
     public void setAñoEstudio(int añoEstudio) {
         this.añoEstudio = añoEstudio;
     }
+    @Override
+    public String toString() {
+        return idAsignatura + ": " + nombreAsignatura + " (Año " + añoEstudio + ")";
+    }
+
+    // Otros métodos y atributos
 }
 

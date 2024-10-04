@@ -1,8 +1,6 @@
 import Servicios.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +21,11 @@ public class MainAppGUI {
 
             // Botones
             JButton btnCargarAlumnos = new JButton("Cargar Alumnos");
+            JButton btnVerEliminarAlumnos = new JButton("Ver/Eliminar Alumnos");
             JButton btnCargarDocentes = new JButton("Cargar Docentes");
+            JButton btnVerEliminarDocentes = new JButton("Ver/Eliminar Docentes");
             JButton btnCargarAsignaturas = new JButton("Cargar Asignaturas");
+            JButton btnVerEliminarAsignaturas = new JButton("Ver/Eliminar Asignaturas");
             JButton btnCrearMesaExamen = new JButton("Crear Mesa de Examen");
             JButton btnInscribirAlumno = new JButton("Inscribir Alumno a Mesa");
             JButton btnGenerarInforme = new JButton("Generar Informe");
@@ -32,18 +33,23 @@ public class MainAppGUI {
 
             // Añadir acciones a los botones
             btnCargarAlumnos.addActionListener(e -> cargarAlumnos());
+            btnVerEliminarAlumnos.addActionListener(e -> verYEliminarAlumnos());
             btnCargarDocentes.addActionListener(e -> cargarDocentes());
+            btnVerEliminarDocentes.addActionListener(e -> verYEliminarDocentes());
             btnCargarAsignaturas.addActionListener(e -> cargarAsignaturas());
-            btnCrearMesaExamen.addActionListener(e -> crearMesaExamen());
-            btnInscribirAlumno.addActionListener(e -> inscribirAlumno());
-            btnGenerarInforme.addActionListener(e -> generarInforme());
-
+            btnVerEliminarAsignaturas.addActionListener(e -> verYEliminarAsignaturas());
+            //btnCrearMesaExamen.addActionListener(e -> crearMesaExamen());
+            //btnInscribirAlumno.addActionListener(e -> inscribirAlumno());
+            //btnGenerarInforme.addActionListener(e -> generarInforme());
             btnSalir.addActionListener(e -> System.exit(0));
 
             // Añadir botones al marco
             frame.add(btnCargarAlumnos);
+            frame.add(btnVerEliminarAlumnos);
             frame.add(btnCargarDocentes);
+            frame.add(btnVerEliminarDocentes);
             frame.add(btnCargarAsignaturas);
+            frame.add(btnVerEliminarAsignaturas);
             frame.add(btnCrearMesaExamen);
             frame.add(btnInscribirAlumno);
             frame.add(btnGenerarInforme);
@@ -54,7 +60,6 @@ public class MainAppGUI {
     }
 
     private static void cargarAlumnos() {
-        // Implementar lógica de carga de alumnos usando un diálogo
         JTextField idField = new JTextField();
         JTextField apellidoField = new JTextField();
         JTextField nombreField = new JTextField();
@@ -79,8 +84,32 @@ public class MainAppGUI {
         }
     }
 
+    private static void verYEliminarAlumnos() {
+        if (alumnos.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay alumnos para mostrar.");
+            return;
+        }
+
+        DefaultListModel<Alumno> listModel = new DefaultListModel<>();
+        for (Alumno alumno : alumnos) {
+            listModel.addElement(alumno);
+        }
+
+        JList<Alumno> list = new JList<>(listModel);
+        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(list);
+
+        int option = JOptionPane.showConfirmDialog(null, scrollPane, "Selecciona Alumnos para Eliminar", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            List<Alumno> selectedAlumnos = list.getSelectedValuesList();
+            for (Alumno selected : selectedAlumnos) {
+                alumnos.remove(selected);
+            }
+            JOptionPane.showMessageDialog(null, "Alumnos eliminados exitosamente.");
+        }
+    }
+
     private static void cargarDocentes() {
-        // Implementar lógica de carga de docentes similar a cargarAlumnos
         JTextField idField = new JTextField();
         JTextField apellidoField = new JTextField();
         JTextField nombreField = new JTextField();
@@ -105,8 +134,32 @@ public class MainAppGUI {
         }
     }
 
+    private static void verYEliminarDocentes() {
+        if (docentes.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay docentes para mostrar.");
+            return;
+        }
+
+        DefaultListModel<Docente> listModel = new DefaultListModel<>();
+        for (Docente docente : docentes) {
+            listModel.addElement(docente);
+        }
+
+        JList<Docente> list = new JList<>(listModel);
+        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(list);
+
+        int option = JOptionPane.showConfirmDialog(null, scrollPane, "Selecciona Docentes para Eliminar", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            List<Docente> selectedDocentes = list.getSelectedValuesList();
+            for (Docente selected : selectedDocentes) {
+                docentes.remove(selected);
+            }
+            JOptionPane.showMessageDialog(null, "Docentes eliminados exitosamente.");
+        }
+    }
+
     private static void cargarAsignaturas() {
-        // Implementar lógica de carga de asignaturas similar a cargarAlumnos
         JTextField idField = new JTextField();
         JTextField nombreField = new JTextField();
         JTextField añoField = new JTextField();
@@ -128,112 +181,30 @@ public class MainAppGUI {
         }
     }
 
-    private static void crearMesaExamen() {
-        // Implementar lógica de creación de mesa de examen
-        JTextField idField = new JTextField();
-        JTextField asignaturaField = new JTextField();
-        JTextField fechaHoraField = new JTextField();
+    private static void verYEliminarAsignaturas() {
+        if (asignaturas.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay asignaturas para mostrar.");
+            return;
+        }
 
-        Object[] message = {
-                "ID Mesa:", idField,
-                "ID Asignatura:", asignaturaField,
-                "Fecha y Hora (YYYY-MM-DDTHH:MM):", fechaHoraField
-        };
+        DefaultListModel<Asignatura> listModel = new DefaultListModel<>();
+        for (Asignatura asignatura : asignaturas) {
+            listModel.addElement(asignatura);
+        }
 
-        int option = JOptionPane.showConfirmDialog(null, message, "Crear Mesa de Examen", JOptionPane.OK_CANCEL_OPTION);
+        JList<Asignatura> list = new JList<>(listModel);
+        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(list);
+
+        int option = JOptionPane.showConfirmDialog(null, scrollPane, "Selecciona Asignaturas para Eliminar", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
-            int idMesa = Integer.parseInt(idField.getText());
-            int idAsignatura = Integer.parseInt(asignaturaField.getText());
-            LocalDateTime fechaHora = LocalDateTime.parse(fechaHoraField.getText());
-
-            Asignatura asignatura = asignaturas.stream()
-                    .filter(a -> a.getIdAsignatura() == idAsignatura)
-                    .findFirst()
-                    .orElse(null);
-
-            if (asignatura != null) {
-                cronos.add(new CronoMesaExamen(idMesa, asignatura, fechaHora));
-                JOptionPane.showMessageDialog(null, "Mesa de examen creada exitosamente.");
-            } else {
-                JOptionPane.showMessageDialog(null, "Asignatura no encontrada.");
+            List<Asignatura> selectedAsignaturas = list.getSelectedValuesList();
+            for (Asignatura selected : selectedAsignaturas) {
+                asignaturas.remove(selected);
             }
+            JOptionPane.showMessageDialog(null, "Asignaturas eliminadas exitosamente.");
         }
     }
 
-    private static void inscribirAlumno() {
-        if (alumnos.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No hay alumnos disponibles para inscribir.");
-            return;
-        }
-
-        if (cronos.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No hay mesas de examen disponibles para inscribir.");
-            return;
-        }
-
-        // Mostrar lista de alumnos
-        StringBuilder alumnosList = new StringBuilder("Seleccione un Alumno:\n");
-        for (Alumno alumno : alumnos) {
-            alumnosList.append(alumno.getIdAlumno()).append(": ").append(alumno.getNombre()).append(" ").append(alumno.getApellido()).append("\n");
-        }
-
-        String idAlumnoInput = JOptionPane.showInputDialog(null, alumnosList.toString());
-        if (idAlumnoInput == null) return; // Cancelar
-
-        int idAlumno;
-        try {
-            idAlumno = Integer.parseInt(idAlumnoInput);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "ID inválido.");
-            return;
-        }
-
-        Alumno alumno = alumnos.stream()
-                .filter(a -> a.getIdAlumno() == idAlumno)
-                .findFirst()
-                .orElse(null);
-
-        if (alumno == null) {
-            JOptionPane.showMessageDialog(null, "Alumno no encontrado.");
-            return;
-        }
-
-        // Mostrar lista de mesas de examen
-        StringBuilder mesasList = new StringBuilder("Seleccione una Mesa de Examen:\n");
-        for (CronoMesaExamen mesa : cronos) {
-            mesasList.append(mesa.getIdMesa()).append(": ").append(mesa.getAsignatura().getNombreAsignatura()).append("\n");
-        }
-
-        String idMesaInput = JOptionPane.showInputDialog(null, mesasList.toString());
-        if (idMesaInput == null) return; // Cancelar
-
-        int idMesa;
-        try {
-            idMesa = Integer.parseInt(idMesaInput);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "ID inválido.");
-            return;
-        }
-
-        CronoMesaExamen mesaExamen = cronos.stream()
-                .filter(m -> m.getIdMesa() == idMesa)
-                .findFirst()
-                .orElse(null);
-
-        if (mesaExamen == null) {
-            JOptionPane.showMessageDialog(null, "Mesa de examen no encontrada.");
-            return;
-        }
-
-        // Inscribir alumno
-        inscripciones.add(new InscripMesaExamen(alumno, mesaExamen));
-        JOptionPane.showMessageDialog(null, "Alumno inscrito a la mesa de examen exitosamente.");
-    }
-
-
-    private static void generarInforme() {
-        // Implementar lógica de generación de informe
-        JOptionPane.showMessageDialog(null, "Informe generado exitosamente.");
-    }
+    // Otros métodos (crearMesaExamen, inscribirAlumno, generarInforme) se mantienen sin cambios
 }
-

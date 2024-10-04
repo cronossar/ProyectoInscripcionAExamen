@@ -47,5 +47,11 @@ public class Alumno {
         public void setDni(String dni) {
             this.dni = dni;
         }
+    @Override
+    public String toString() {
+        return idAlumno + ": " + nombre + " " + apellido + " (" + dni + ")";
     }
+
+    // Otros métodos y atributos
+}
 
